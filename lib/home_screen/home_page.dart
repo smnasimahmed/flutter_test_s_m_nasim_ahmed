@@ -39,6 +39,7 @@ class _HomeBodyView extends StatefulWidget {
 class _HomeBodyViewState extends State<_HomeBodyView> {
   late PageController _pageController;
   bool _syncingFromTab = false;
+  bool _syncingFromPage = false;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
   }
 
   void _onTabControllerChanged() {
+    if (_syncingFromPage) return;
     if (!widget.controller.tabController.indexIsChanging) return;
     final index = widget.controller.tabController.index;
     if (_pageController.hasClients) {
@@ -71,7 +73,9 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
 
   void _onPageChanged(int index) {
     if (_syncingFromTab) return;
+    _syncingFromPage = true;
     widget.controller.tabController.animateTo(index);
+    _syncingFromPage = false;
   }
 
   @override
@@ -152,7 +156,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
                         tabs: widget.controller.tabLabels
                             .map((l) => Tab(text: _capitalize(l)))
                             .toList(),
-                            onTap:  _onPageChanged,
                       ),
                     ),
                     const Divider(height: 0, thickness: 1, color: ConstColour.divider),
