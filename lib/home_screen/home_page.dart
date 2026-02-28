@@ -145,6 +145,7 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
                   children: [
                     Obx(
                       () => TabBar(
+                        onTap:(value) => _onTabControllerChanged(),
                         controller: widget.controller.tabController,
                         isScrollable: true,
                         indicatorColor: ConstColour.primary,
@@ -192,7 +193,10 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
 
   String _capitalize(String s) {
     if (s.isEmpty) return s;
-    return s.split(' ').map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}').join(' ');
+    return s
+        .split(' ')
+        .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
+        .join(' ');
   }
 }
 
