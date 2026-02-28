@@ -11,7 +11,6 @@ import 'package:http_parser/http_parser.dart';
 class ApiService {
   static final Dio _dio = _getMyDio();
 
-  /// ========== [ HTTP METHODS ] ========== ///
   static Future<ApiResponseModel> post(
     String url, {
     dynamic body,
@@ -120,7 +119,6 @@ class ApiService {
   }
 }
 
-/// ========== [ DIO INSTANCE WITH INTERCEPTORS ] ========== ///
 Dio _getMyDio() {
   final storage = AppStorage();
 

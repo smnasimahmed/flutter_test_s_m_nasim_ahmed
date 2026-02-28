@@ -1,12 +1,3 @@
-// ProductGridForTab
-// ─────────────────
-// This widget renders a GridView for a given tab index.
-// CRITICAL: It uses NeverScrollableScrollPhysics and shrinkWrap: true.
-// This makes the grid render at its full natural height, contributing
-// that height to the parent CustomScrollView rather than creating an
-// independent scroll context.  Without this, you would have nested
-// scrollables which causes scroll jitter and breaks pull-to-refresh.
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:daraz_task/home_screen/controller/home_page_controller.dart';
@@ -48,7 +39,6 @@ class ProductGridForTab extends StatelessWidget {
       }
 
       return GridView.builder(
-        // ── KEY: hand vertical scroll ownership to the outer CustomScrollView ──
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         padding: const EdgeInsets.all(12),

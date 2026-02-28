@@ -59,7 +59,6 @@ class ProfilePage extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              // ── Avatar Header ──────────────────────────────────────
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(
@@ -101,7 +100,6 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
-              // ── Info Cards ─────────────────────────────────────────
               const SizedBox(height: 16),
               _infoSection('Personal Information', [
                 _infoTile(Icons.person_outline, 'Full Name', user.fullName),

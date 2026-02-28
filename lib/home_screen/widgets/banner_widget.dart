@@ -25,7 +25,6 @@ class BannerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Top row: greeting + notifications
               Row(
                 children: [
                   Expanded(

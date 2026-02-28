@@ -9,24 +9,17 @@ import 'package:daraz_task/services/log/error_log.dart';
 import 'package:daraz_task/services/storage/storage_service.dart';
 
 class HomePageController extends GetxController with GetTickerProviderStateMixin {
-  // ─── Tab Controller ───────────────────────────────────────────────────
-  // Owns the tab index. Shared between the TabBar and the PageView.
-  // When categories load, we rebuild it with the correct length.
+
   late TabController tabController;
 
-  // ─── Single Scroll Controller ─────────────────────────────────────────
-  // The ONE vertical scroll owner. Passed to the outer CustomScrollView.
-  // No child widget should create its own scroll context.
   final ScrollController scrollController = ScrollController();
 
-  // ─── Observable data ──────────────────────────────────────────────────
   final RxList<ProductModel> allProducts = <ProductModel>[].obs;
   final RxMap<String, List<ProductModel>> categoryProducts =
       <String, List<ProductModel>>{}.obs;
   final Rx<UserModel?> currentUser = Rx<UserModel?>(null);
   final RxList<String> tabLabels = <String>['All'].obs;
 
-  // ─── Loading states ───────────────────────────────────────────────────
   final RxBool isLoadingProducts = false.obs;
   final RxBool isLoadingUser = false.obs;
   final RxBool isRefreshing = false.obs;
@@ -45,7 +38,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     super.onClose();
   }
 
-  // ─── Fetch all data ───────────────────────────────────────────────────
   Future<void> fetchAll() async {
     isLoadingProducts.value = true;
     await Future.wait([
@@ -56,7 +48,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     isLoadingProducts.value = false;
   }
 
-  // ─── Pull-to-refresh ─────────────────────────────────────────────────
   Future<void> onRefresh() async {
     isRefreshing.value = true;
     allProducts.clear();
@@ -65,7 +56,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     isRefreshing.value = false;
   }
 
-  // ─── Fetch all products ───────────────────────────────────────────────
   Future<void> fetchProducts() async {
     try {
       final response = await ApiService.get(
@@ -82,7 +72,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     }
   }
 
-  // ─── Fetch categories → rebuild tab controller ────────────────────────
   Future<void> fetchCategories() async {
     try {
       final response = await ApiService.get(
@@ -91,13 +80,10 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
       if (response.isSuccess && response.data is List) {
         final cats = (response.data as List).map((e) => e.toString()).toList();
 
-        // Tabs: All + first 3 categories
         final tabs = ['All', ...cats.take(3)];
 
-        // Save current index before rebuilding controller
         final prevIndex = tabController.index.clamp(0, tabs.length - 1);
 
-        // Rebuild TabController with correct count
         final oldController = tabController;
         tabController = TabController(
           length: tabs.length,
@@ -106,10 +92,8 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
         );
         oldController.dispose();
 
-        // Update labels AFTER rebuilding controller
         tabLabels.value = tabs;
 
-        // Fetch per-category products
         await Future.wait(cats.take(3).map(fetchProductsByCategory));
       }
     } catch (e) {
@@ -117,7 +101,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     }
   }
 
-  // ─── Fetch products for one category ─────────────────────────────────
   Future<void> fetchProductsByCategory(String category) async {
     try {
       final response = await ApiService.get(
@@ -134,7 +117,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     }
   }
 
-  // ─── Fetch user profile ───────────────────────────────────────────────
   Future<void> fetchUserProfile() async {
     try {
       isLoadingUser.value = true;
@@ -153,7 +135,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     }
   }
 
-  // ─── Get products for a tab index ─────────────────────────────────────
   List<ProductModel> productsForTab(int tabIndex) {
     if (tabIndex == 0) return allProducts;
     if (tabIndex >= tabLabels.length) return [];
@@ -161,7 +142,6 @@ class HomePageController extends GetxController with GetTickerProviderStateMixin
     return categoryProducts[cat] ?? [];
   }
 
-  // ─── Logout ───────────────────────────────────────────────────────────
   Future<void> logout() async {
     await AppStorage().clearAll();
     Get.offAllNamed('/loginPage');

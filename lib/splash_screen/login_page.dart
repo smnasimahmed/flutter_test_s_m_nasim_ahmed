@@ -19,7 +19,6 @@ class LoginPage extends GetView<LoginController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                // Logo / Header
                 Center(
                   child: Column(
                     children: [
@@ -120,11 +119,11 @@ class LoginPage extends GetView<LoginController> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: ConstColour.shadowBlue40),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
-                      const Icon(Icons.info_outline, color: ConstColour.shadowBlue, size: 16),
-                      const SizedBox(width: 8),
-                      const Expanded(
+                      Icon(Icons.info_outline, color: ConstColour.shadowBlue, size: 16),
+                      SizedBox(width: 8),
+                      Expanded(
                         child: Text(
                           'Demo: username: johnd  |  password: m38rmF\$',
                           style: TextStyle(

@@ -55,7 +55,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
     super.dispose();
   }
 
-  /// Called when TabBar indicator changes (user tapped a tab)
   void _onTabControllerChanged() {
     if (_syncingFromPage) return;
     if (!widget.controller.tabController.indexIsChanging) return;
@@ -72,7 +71,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
     }
   }
 
-  /// Called when user swipes the PageView
   void _onPageChanged(int index) {
     if (_syncingFromTab) return;
     _syncingFromPage = true;
@@ -82,7 +80,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
 
   @override
   Widget build(BuildContext context) {
-    // Height available for the PageView (screen minus safeArea top, appBar, tabBar)
     final safeTop = MediaQuery.of(context).padding.top;
     final screenH = MediaQuery.of(context).size.height;
     const appBarH = kToolbarHeight; // 56
@@ -96,7 +93,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
         controller: widget.controller.scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          // ── Collapsible banner / search bar ─────────────────────────
           SliverAppBar(
             expandedHeight: 200,
             floating: true,
@@ -140,7 +136,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
             ],
           ),
 
-          // ── Sticky tab bar ───────────────────────────────────────────
           SliverPersistentHeader(
             pinned: true,
             delegate: _TabBarDelegate(
@@ -170,7 +165,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
             ),
           ),
 
-          // ── Tab content: PageView (horizontal) inside SliverToBoxAdapter ─
           SliverToBoxAdapter(
             child: Obx(() {
               if (widget.controller.tabLabels.length <= 1) {
@@ -202,7 +196,6 @@ class _HomeBodyViewState extends State<_HomeBodyView> {
   }
 }
 
-// ─── Sticky tab bar persistent header delegate ───────────────────────────────
 class _TabBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
 

@@ -20,7 +20,6 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Pre-fill with demo credentials from FakeStore API
     usernameController.text = 'johnd';
     passwordController.text = 'm38rmF\$';
   }

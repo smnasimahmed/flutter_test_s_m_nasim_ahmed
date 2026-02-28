@@ -25,7 +25,6 @@ class ProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Product Image ──────────────────────────────────────────
           Expanded(
             flex: 3,
             child: Stack(
@@ -80,7 +79,6 @@ class ProductCard extends StatelessWidget {
               ],
             ),
           ),
-          // ── Product Info ───────────────────────────────────────────
           Expanded(
             flex: 2,
             child: Padding(
